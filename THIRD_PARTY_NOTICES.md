@@ -1,5 +1,7 @@
 # Third-party notices
 
+[简体中文](docs/third-party.zh-CN.md) · English · [Home](README.en.md)
+
 The project's MIT license covers original project code. It does not replace the licenses of dependencies or external programs.
 
 ## yt-dlp backport

@@ -12,9 +12,10 @@ ROOT_FILES = {
     "build_release.py", "build_release.cmd", "使用说明.md", "本地网页说明.md", "发布说明.md",
     "resolve_net.py", "resolution.py", "resolve_router.py", "resolve_browser.py", "download_plan.py",
     "download_plan.cmd", "start_resolver.cmd", "仅解析说明.md", "版本与分支.md", "requirements-vendor.txt",
-    "setup_vendor.py", "setup_vendor.cmd", "README.md", "LICENSE", "THIRD_PARTY_NOTICES.md",
+    "setup_vendor.py", "setup_vendor.cmd", "README.md", "README.en.md", "CHANGELOG.md",
+    "LICENSE", "THIRD_PARTY_NOTICES.md",
 }
-SOURCE_DIRS = {"site_handlers", "web_ui", "vendor", "third_party"}
+SOURCE_DIRS = {"site_handlers", "web_ui", "vendor", "third_party", "docs"}
 PRIVATE_PARTS = {".auth", ".web", ".git", "__pycache__", ".pytest_cache", "releases"}
 
 
@@ -34,6 +35,8 @@ def public_files(root):
         if path.suffix.lower() in {".pyc", ".pyo", ".log", ".sqlite3"} or path.name == "direct_url.json":
             continue
         if relative.parts[0] == "site_handlers" and path.suffix != ".py":
+            continue
+        if relative.parts[0] == "docs" and path.suffix.lower() not in {".md", ".png", ".gif"}:
             continue
         if relative.parts[:2] in {("vendor", "bin"), ("vendor", "include"), ("vendor", "share")}:
             continue

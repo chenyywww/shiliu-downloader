@@ -17,6 +17,8 @@ class ReleaseTests(unittest.TestCase):
             self.assertEqual(work.parent, ROOT.parent.resolve())
             source = work / "source"
             files = {"download_router.py": "print('source')", "site_handlers/youtube_session.py": "# source",
+                     "README.en.md": "# English guide", "docs/usage.en.md": "# Usage",
+                     "docs/assets/workspace.png": "synthetic-preview", "docs/private.txt": "private-account-secret",
                      "web_ui/app.js": "// source", "vendor/dependency/__init__.py": "# vendor",
                      ".auth/youtube-session.bin": "private-account-secret", ".web/tasks.sqlite3": "private-history",
                      "download-error.log": "private-history", "my_password.txt": "private-account-secret",
@@ -30,6 +32,10 @@ class ReleaseTests(unittest.TestCase):
                 names = bundle.namelist()
                 self.assertIn("local-video-downloader/site_handlers/youtube_session.py", names)
                 self.assertIn("local-video-downloader/vendor/dependency/__init__.py", names)
+                self.assertIn("local-video-downloader/README.en.md", names)
+                self.assertIn("local-video-downloader/docs/usage.en.md", names)
+                self.assertIn("local-video-downloader/docs/assets/workspace.png", names)
+                self.assertNotIn("local-video-downloader/docs/private.txt", names)
                 for name in names:
                     value = bundle.read(name)
                     self.assertNotIn(b"private-account-secret", value)
