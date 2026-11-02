@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>拾流 · 本地视频下载</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" defer></script>
+  <script src="/resolve-ui.js" defer></script>
+</head>
+<body>
+<svg class="icon-definitions" aria-hidden="true"><defs>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12m-4-4 4 4 4-4M4 16v4h16v-4"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7V5h6l2 2h10v13H3V7Z"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24"><path d="m10 13 4-4m-6 6-1 1a4 4 0 0 1-6-6l5-5a4 4 0 0 1 6 0m0 6 1-1a4 4 0 0 1 6 6l-5 5a4 4 0 0 1-6 0"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+  <symbol id="i-settings" viewBox="0 0 24 24"><path d="M4 7h16M4 17h16M8 4v6m8 4v6"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M12 5c-3-2-7-2-10-1v15c3-1 7-1 10 1 3-2 7-2 10-1V4c-3-1-7-1-10 1Zm0 0v15"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-5-5 5 5-5 5"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6"/></symbol>
+  <symbol id="i-retry" viewBox="0 0 24 24"><path d="M3 10a9 9 0 1 1 2 8M3 4v6h6"/></symbol>
+  <symbol id="i-monitor" viewBox="0 0 24 24"><path d="M3 4h18v13H3Zm5 17h8m-4-4v4"/></symbol>
+</defs></svg>
+<aside class="sidebar">
+  <a class="brand" href="/" aria-label="拾流首页"><span class="brand-mark"><svg><use href="#i-download"/></svg></span><span>拾流<small>LOCAL DOWNLOADER</small></span></a>
+  <div class="nav-label">工作空间</div>
+  <nav aria-label="主导航">
+    <a href="/" class="nav-item active" aria-current="page"><svg><use href="#i-download"/></svg>下载工作台</a>
+    <button class="nav-item" id="sites-button"><svg><use href="#i-check"/></svg>站点与处理方式</button>
+    <a class="nav-item" href="/guide" target="_blank" rel="noopener"><svg><use href="#i-book"/></svg>使用说明 <span class="nav-external">↗</span></a>
+  </nav>
+  <div class="sidebar-bottom"><div class="local-card"><svg><use href="#i-monitor"/></svg><div>本机运行<span id="service-status">正在连接…</span></div><i class="status-dot" id="service-dot"></i></div>
+    <button class="quiet stop-service" id="shutdown-button">退出本地服务</button>
+  </div>
+</aside>
+<main class="workspace">
+  <header class="topbar"><span class="breadcrumb">工作空间 <span>/</span> 下载工作台</span><div class="top-actions"><span class="local-badge"><i class="status-dot"></i>本地版</span><button class="icon-button" id="settings-button" aria-label="登录与辅助设置" title="登录与辅助设置"><svg><use href="#i-settings"/></svg></button></div></header>
+  <div class="main-content">
+    <div class="page-title"><div><div class="eyebrow">你的链接，你的文件</div><h1>下载工作台</h1><p>粘贴视频链接或分享文案，剩下的交给工具处理。</p></div><button class="button secondary" id="open-downloads"><svg><use href="#i-folder"/></svg>打开下载文件夹</button></div>
+    <div id="offline-banner" class="notice warning" hidden>本地服务暂时无法连接。双击 start_web.cmd 重新启动后，页面会自动连接。</div>
+    <section class="composer" aria-labelledby="composer-title">
+      <form id="download-form">
+        <div class="composer-heading"><h2 id="composer-title"><svg><use href="#i-link"/></svg>添加视频链接</h2><span>自动识别网站</span></div>
+        <label class="sr-only" for="video-url">视频网址或分享内容</label>
+        <textarea id="video-url" name="url" rows="3" maxlength="16000" placeholder="在这里粘贴视频网址，或抖音的整段分享文案…" required spellcheck="false"></textarea>
+        <div class="composer-footer"><div class="input-hint">一次提交一个视频，多个任务会依次下载。</div><button class="button primary" id="submit-button" type="submit"><svg><use href="#i-download"/></svg><span>开始下载</span></button></div>
+        <details class="download-options"><summary>下载选项</summary><div class="options-row"><label><input type="checkbox" id="option-check">仅检查链接和短片段</label><label><input type="checkbox" id="option-browser">需要时显示浏览器</label><label><input type="checkbox" id="option-x">允许 X 登录后备</label><label><input type="checkbox" id="option-youtube">允许 YouTube 登录后备</label></div><p>检查通过不代表整段视频已下载。X、YouTube 仅在匿名方式失败后，按勾选的选项使用已保存会话；重试也使用这里的登录选项。</p></details>
+      </form>
+      <div class="supported-line"><span>按网站自动处理</span><b>抖音</b><b>X / Twitter</b><b>B站</b><b>YouTube</b><span class="supported-more">及其他视频页面</span></div>
+    </section>
+    <section class="task-section" aria-labelledby="task-title">
+      <div class="section-heading"><div><h2 id="task-title">下载任务 <span id="task-count" class="count-badge">0</span></h2><p id="task-summary">任务记录保存在这台电脑上。</p></div><span class="queue-note"><i class="status-dot"></i>依次处理 · 自动保存记录</span></div>
+      <div class="task-toolbar" role="group" aria-label="筛选任务"><button class="filter active" data-filter="all">全部</button><button class="filter" data-filter="active">进行中</button><button class="filter" data-filter="completed">已完成</button><button class="filter" data-filter="failed">未成功</button></div>
+      <div id="task-list" aria-live="polite"></div>
+      <button id="load-more" class="button secondary load-more" hidden>显示更多任务</button>
+    </section>
+    <footer class="workspace-footer"><span><svg><use href="#i-folder"/></svg><span id="storage-caption">保存到</span> <span id="output-path">正在读取…</span></span><span>仅本机访问</span></footer>
+  </div>
+</main>
+<dialog id="settings-dialog"><div class="dialog-header"><div><small>本机设置</small><h2>登录与辅助</h2></div><button class="icon-button" data-close="settings-dialog" aria-label="关闭设置"><svg><use href="#i-close"/></svg></button></div><div class="dialog-body">
+  <p class="muted">大多数公开作品先匿名解析。需要时，可在工具独立窗口中手动登录并保存。</p>
+  <div class="login-row"><div><h3>抖音登录 <span id="douyin-session" class="tiny-tag"></span></h3><p>匿名解析失败后，自动尝试你主动保存的会话。</p></div><button class="button secondary" data-login="login_douyin">打开登录窗口</button></div>
+  <div class="login-row"><div><h3>X 登录 <span id="x-session" class="tiny-tag"></span></h3><p>先保存会话，再勾选下载选项里的“允许 X 登录后备”。</p></div><button class="button secondary" data-login="login_x">打开登录窗口</button></div>
+  <div class="login-row"><div><h3>YouTube 登录 <span id="youtube-session" class="tiny-tag"></span></h3><p>在自己的常用浏览器登录，再导入本人会话。下载时勾选“允许 YouTube 登录后备”。</p></div><button class="button secondary" id="youtube-setup-button">连接账号</button></div>
+  <details class="youtube-import"><summary>YouTube 会话导入与账号切换</summary><ol class="muted small"><li>在常用浏览器登录 YouTube，完成网站要求的确认，并确认目标视频能播放。</li><li>按官方说明导出 youtube.com 的 Cookie，保存为 Netscape 格式的 TXT 文件。</li><li>点击下方“导入 Cookie 文件”；随后勾选“允许 YouTube 登录后备”并重试。</li></ol><p class="muted small">仅保留 youtube.com 的会话，提交后在本机加密保存。Cookie 文件只通过本机网页导入。</p><div class="import-actions"><button class="button secondary" id="youtube-import-button">导入 Cookie 文件</button><button class="button secondary" id="youtube-forget-button">清除本机 YouTube 会话</button><input id="youtube-cookie-file" type="file" accept=".txt" hidden></div><a class="text-link" href="https://github.com/yt-dlp/yt-dlp/wiki/Extractors#exporting-youtube-cookies" target="_blank" rel="noopener noreferrer">查看 yt-dlp 官方导出说明 ↗</a><p class="muted small">独立窗口是可选方式；Google 可能拒绝此类浏览器。</p><button class="small-button" data-login="login_youtube">尝试独立登录窗口</button></details>
+  <div class="notice">独立登录窗口会加入任务队列，请自行完成登录并点击工具页里的保存按钮。YouTube Cookie 导入可直接在本页完成。</div>
+  <p class="muted small">会话属于当前使用者；这里只有本机保存记录，不代表会话仍有效。工具不读取个人 Chrome 的账号资料。向他人分发程序时，请使用发布包，排除 .auth、.web 和日志。</p>
+</div></dialog>
+<dialog id="sites-dialog"><div class="dialog-header"><div><small>验证结果</small><h2>站点与处理方式</h2></div><button class="icon-button" data-close="sites-dialog" aria-label="关闭站点记录"><svg><use href="#i-close"/></svg></button></div><div class="dialog-body"><p class="muted">以下说明处理方式，实际可用性受站点、账号和网络条件影响。</p><div id="site-records"></div><a class="text-link" href="/guide" target="_blank" rel="noopener">查看使用说明与完整流程 ↗</a></div></dialog>
+<dialog id="detail-dialog" class="detail-dialog"><div class="dialog-header"><div><small id="detail-kind">下载任务</small><h2 id="detail-title">任务详情</h2></div><button class="icon-button" data-close="detail-dialog" aria-label="关闭任务详情"><svg><use href="#i-close"/></svg></button></div><div class="dialog-body" id="detail-body"></div></dialog>
+<div id="toast" class="toast" role="status" hidden></div>
+</body>
+</html>

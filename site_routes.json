@@ -1,0 +1,40 @@
+{
+  "sites": [
+    {
+      "id": "douyin",
+      "name": "抖音",
+      "domains": ["douyin.com", "iesdouyin.com"],
+      "handler": "douyin"
+    },
+    {
+      "id": "x",
+      "name": "X / Twitter",
+      "domains": ["x.com", "twitter.com"],
+      "handler": "x"
+    },
+    {
+      "id": "youtube",
+      "name": "YouTube",
+      "domains": ["youtube.com", "youtu.be", "youtube-nocookie.com"],
+      "handler": "youtube"
+    },
+    {
+      "id": "sexbjcam",
+      "name": "sexbjcam",
+      "domains": ["sexbjcam.com"],
+      "handler": "sexbjcam"
+    },
+    {
+      "id": "playerrecord",
+      "name": "新版 playerrecord 播放器",
+      "domains": ["playerrecord.cfd"],
+      "handler": "playerrecord"
+    },
+    {
+      "id": "recordplay",
+      "name": "recordplay / playrecord",
+      "domains": ["recordplay.biz", "playrecord.biz"],
+      "handler": "hls"
+    }
+  ]
+}
